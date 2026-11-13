@@ -129,7 +129,7 @@
   </style>
 </head>
 <body class="bg-cream text-ink font-sans antialiased">
-  <main class="mx-auto max-w-5xl px-5 py-12 sm:py-20 space-y-20 sm:space-y-28">
+  <main class="mx-auto max-w-5xl px-5 pb-12 pt-20 space-y-20 sm:py-20 sm:space-y-28">
 
     <!-- 1. Encabezado + contador -->
     <section class="reveal text-center">
@@ -217,10 +217,12 @@
   <div
     role="group"
     aria-label="Idioma / Sprache"
-    class="fixed left-4 top-4 z-40 flex items-center gap-1 rounded-full border border-blush bg-white/70 p-1 text-xs font-semibold shadow-sm backdrop-blur"
+    style="left: max(0.75rem, env(safe-area-inset-left)); top: max(0.75rem, env(safe-area-inset-top))"
+    class="fixed z-40 flex touch-manipulation items-center gap-1 rounded-full border border-blush bg-white/90 p-1 text-sm font-semibold shadow-md backdrop-blur"
   >
-    <button id="langEs" type="button" data-lang="es" class="rounded-full px-3 py-1 text-ink/60 transition hover:text-terracotta">ES</button>
-    <button id="langDe" type="button" data-lang="de" class="rounded-full px-3 py-1 text-ink/60 transition hover:text-terracotta">DE</button>
+    <span aria-hidden="true" class="pl-1.5 pr-0.5 text-terracotta">🌐</span>
+    <button id="langEs" type="button" data-lang="es" class="cursor-pointer rounded-full px-3.5 py-2 text-ink/60 transition hover:text-terracotta">ES</button>
+    <button id="langDe" type="button" data-lang="de" class="cursor-pointer rounded-full px-3.5 py-2 text-ink/60 transition hover:text-terracotta">DE</button>
   </div>
 
   <!-- Música de fondo -->
@@ -466,6 +468,20 @@
     let lang = "es";
     const t = () => I18N[lang];
 
+    // localStorage puede fallar en modo privado: nunca debe romper la página.
+    const readLang = () => {
+      try {
+        return localStorage.getItem(LANG_KEY);
+      } catch {
+        return null;
+      }
+    };
+    const saveLang = (value) => {
+      try {
+        localStorage.setItem(LANG_KEY, value);
+      } catch {}
+    };
+
     // --- Contador ---
     const startTime = new Date(CONFIG.startDate + "T00:00:00").getTime();
     const pad = (n) => String(n).padStart(2, "0");
@@ -551,7 +567,9 @@
       }
     }
     function saveRedeemed(data) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      } catch {}
     }
 
     function formatDate(iso) {
@@ -690,7 +708,7 @@
     // --- Idioma ---
     function applyLang(next) {
       lang = I18N[next] ? next : "es";
-      localStorage.setItem(LANG_KEY, lang);
+      saveLang(lang);
       document.documentElement.lang = lang;
       document.title = t().title;
 
@@ -733,7 +751,7 @@
       btn.addEventListener("click", () => applyLang(btn.dataset.lang));
     });
 
-    const savedLang = localStorage.getItem(LANG_KEY);
+    const savedLang = readLang();
     const browserLang = (navigator.language || "es").toLowerCase();
     applyLang(savedLang || (browserLang.startsWith("de") ? "de" : "es"));
   </script>
