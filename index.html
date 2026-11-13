@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para ti 💌</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300..700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: "#FBF6EF",
+            blush: "#F6D9D5",
+            rose: "#E8B4B0",
+            terracotta: "#C97B63",
+            ink: "#4A3B36",
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', "serif"],
+            sans: ["Inter", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    .envelope-flap {
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+    }
+    @keyframes fall {
+      to {
+        transform: translateY(112vh) rotate(360deg);
+      }
+    }
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    .modal-card {
+      animation: pop 0.3s ease-out both;
+    }
+    .fade-phrase {
+      transition: opacity 0.25s ease;
+    }
+  </style>
+</head>
+<body class="bg-cream text-ink font-sans antialiased">
+  <main class="mx-auto max-w-5xl px-5 py-12 sm:py-20 space-y-20 sm:space-y-28">
+
+    <!-- 1. Encabezado + contador -->
+    <section class="text-center">
+      <p class="text-xs uppercase tracking-[0.3em] text-terracotta">Nuestra historia</p>
+      <h1 id="mainTitle" class="mt-3 font-serif text-4xl leading-tight sm:text-6xl"></h1>
+      <p id="subtitle" class="mx-auto mt-4 max-w-xl text-sm text-ink/70 sm:text-base"></p>
+
+      <div class="mx-auto mt-10 grid max-w-lg grid-cols-4 gap-2 sm:gap-4">
+        <div class="rounded-2xl border border-blush bg-white/70 py-4 text-center shadow-sm">
+          <span id="days" class="block font-serif text-3xl sm:text-4xl">0</span>
+          <span class="text-[10px] uppercase tracking-widest text-ink/50 sm:text-xs">días</span>
+        </div>
+        <div class="rounded-2xl border border-blush bg-white/70 py-4 text-center shadow-sm">
+          <span id="hours" class="block font-serif text-3xl sm:text-4xl">0</span>
+          <span class="text-[10px] uppercase tracking-widest text-ink/50 sm:text-xs">horas</span>
+        </div>
+        <div class="rounded-2xl border border-blush bg-white/70 py-4 text-center shadow-sm">
+          <span id="minutes" class="block font-serif text-3xl sm:text-4xl">0</span>
+          <span class="text-[10px] uppercase tracking-widest text-ink/50 sm:text-xs">min</span>
+        </div>
+        <div class="rounded-2xl border border-blush bg-white/70 py-4 text-center shadow-sm">
+          <span id="seconds" class="block font-serif text-3xl sm:text-4xl">0</span>
+          <span class="text-[10px] uppercase tracking-widest text-ink/50 sm:text-xs">seg</span>
+        </div>
+      </div>
+
+      <div class="mx-auto mt-12 max-w-xl">
+        <button
+          id="reasonBtn"
+          type="button"
+          class="rounded-full bg-gradient-to-r from-terracotta to-rose px-8 py-3 text-sm font-medium text-white shadow-lg shadow-rose/30 transition hover:-translate-y-0.5 hover:shadow-xl active:scale-95 sm:text-base"
+        >
+          Dime una razón por la que me gustas, Luana
+        </button>
+        <p id="reasonBox" class="fade-phrase mt-6 flex min-h-[3.5rem] items-center justify-center font-serif text-lg italic text-terracotta sm:text-xl"></p>
+
+        <div class="mt-8">
+          <button
+            id="missBtn"
+            type="button"
+            class="rounded-full border border-terracotta/50 px-8 py-3 text-sm font-medium text-terracotta transition hover:bg-terracotta hover:text-white active:scale-95 sm:text-base"
+          >
+            ¿Me extrañas?
+          </button>
+          <p id="missMsg" class="pointer-events-none mt-4 font-serif text-lg text-terracotta opacity-0 transition-opacity duration-700">
+            Yo también te extraño, Luana ❤️
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Ábrelo cuando... -->
+    <section>
+      <h2 class="text-center font-serif text-3xl sm:text-4xl">Ábrelo cuando...</h2>
+      <p class="mx-auto mt-3 max-w-md text-center text-sm text-ink/60">
+        Seis cartas guardadas para los momentos en los que necesites sentirme cerca, Luana.
+      </p>
+      <div id="envelopesGrid" class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6"></div>
+    </section>
+
+    <!-- 3. Cupones -->
+    <section>
+      <h2 class="text-center font-serif text-3xl sm:text-4xl">Cupones canjeables</h2>
+      <p class="mx-auto mt-3 max-w-md text-center text-sm text-ink/60">
+        Válidos para siempre y canjeables cuando quieras, Luana. Sin letra pequeña.
+      </p>
+      <div id="couponsGrid" class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2"></div>
+    </section>
+
+    <footer class="pb-6 text-center text-xs text-ink/50">
+      <p>Hecho con <span class="text-terracotta">♥</span> para Luana.</p>
+      <button id="resetBtn" type="button" class="mt-3 underline decoration-dotted underline-offset-4 transition hover:text-terracotta">
+        Reiniciar cupones
+      </button>
+    </footer>
+  </main>
+
+  <!-- Música de fondo -->
+  <audio id="bgMusic" loop preload="none"></audio>
+  <button
+    id="musicBtn"
+    type="button"
+    aria-label="Reproducir música"
+    aria-pressed="false"
+    class="fixed bottom-5 right-5 z-40 grid h-12 w-12 place-items-center rounded-full bg-terracotta text-lg text-white shadow-lg shadow-terracotta/30 transition hover:scale-105 active:scale-95"
+  >
+    ♫
+  </button>
+
+  <!-- Modal de carta -->
+  <div id="letterModal" class="fixed inset-0 z-50 hidden">
+    <div id="modalBackdrop" class="absolute inset-0 bg-ink/50 backdrop-blur-sm"></div>
+    <div class="relative flex min-h-full items-center justify-center p-4">
+      <div class="modal-card relative w-full max-w-lg rounded-3xl bg-cream p-6 shadow-2xl sm:p-9">
+        <button
+          id="modalClose"
+          type="button"
+          aria-label="Cerrar carta"
+          class="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full bg-blush/60 text-ink/60 transition hover:bg-blush hover:text-ink"
+        >
+          ✕
+        </button>
+        <h3 id="modalTitle" class="pr-10 font-serif text-2xl text-terracotta sm:text-3xl"></h3>
+        <div class="my-5 h-px w-16 bg-rose"></div>
+        <p id="modalBody" class="whitespace-pre-line text-sm leading-relaxed text-ink/80 sm:text-base"></p>
+        <button
+          id="modalCloseBtn"
+          type="button"
+          class="mt-8 w-full rounded-full border border-terracotta/40 py-3 text-sm font-medium text-terracotta transition hover:bg-terracotta hover:text-white"
+        >
+          Cerrar carta
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ============================================================
+       CONFIGURACIÓN FÁCIL
+       Cambia aquí los nombres, la fecha, las frases, las cartas
+       y los cupones. No hace falta tocar el resto del código.
+       ============================================================ */
+    const CONFIG = {
+      // Fecha en la que empezó la historia (AAAA-MM-DD)
+      startDate: "2023-05-09",
+
+      title: "Para ti, Luana",
+      subtitle: "Luana, desde el día en que te conocí, todo se volvió un poco más bonito.",
+
+      // Pega aquí el nombre del archivo de música que esté junto a este index.html
+      music: { src: "cancion.mp3/cancion.mp3.mp3", title: "Nuestra canción" },
+
+      // Frases del botón "Dime una razón..."
+      phrases: [
+        "Porque tu risa es mi sonido favorito.",
+        "Porque incluso los días grises se vuelven bonitos contigo.",
+        "Porque me escuchas de verdad, aunque hable de tonterías.",
+        "Porque haces que lo cotidiano se sienta especial.",
+        "Porque contigo hasta el silencio es cómodo.",
+        "Porque tu forma de cuidar a los demás me inspira.",
+        "Porque tengo mil planes y en todos estás tú.",
+        "Porque me gusta la persona que soy cuando estoy contigo.",
+        "Porque tu abrazo se siente como llegar a casa.",
+        "Porque hasta tus enojos me parecen adorables.",
+        "Porque crees en mí incluso cuando yo no.",
+        "Porque no necesito una ocasión especial para pensarte.",
+        "Porque tu manera de ver el mundo me hace querer verlo igual.",
+        "Porque contigo el tiempo pasa rápido y lento a la vez.",
+        "Porque elegiría una y otra vez esta historia contigo.",
+        "Porque tu felicidad también se volvió la mía."
+      ],
+
+      // Sobres de "Ábrelo cuando..."
+      envelopes: [
+        {
+          title: "Ábrelo cuando me extrañes",
+          letter:
+            "Si estás leyendo esto, es porque me extrañas, y quiero que sepas que yo también te extraño a ti.\n\nPiensa que cada minuto que no estamos juntos también es un minuto más cerca de volver a verte. Mientras tanto, guarda un abrazo imaginario mío y no lo sueltes hasta que pueda dártelo de verdad.\n\nEstás en mis pensamientos más de lo que imaginas."
+        },
+        {
+          title: "Ábrelo cuando tengas un mal día",
+          letter:
+            "Respira. Lo que sea que te esté pesando hoy no define ni tu día ni tu semana.\n\nNo tienes que poder con todo siempre, y no tienes que fingir que estás bien delante de mí. Si hoy solo puedes sentarte y descansar, eso ya es suficiente.\n\nEstoy orgulloso de ti incluso en los días difíciles, y cuando quieras, aquí estoy para escucharte."
+        },
+        {
+          title: "Ábrelo cuando no puedas dormir",
+          letter:
+            "Cierra los ojos un momento e imagina que estamos en el sofá, con una manta y esa serie que nunca terminamos.\n\nNo tienes que resolver la vida a las 3 de la mañana. Suelta lo que no puedas controlar y quédate solo con lo que te haga sentir tranquilo.\n\nLeer esto cuenta como un beso de buenas noches. Duerme, que mañana te espero."
+        },
+        {
+          title: "Ábrelo cuando estés feliz",
+          letter:
+            "¡Me encanta que estés feliz! Y me encanta todavía más que quieras compartirlo conmigo.\n\nCuéntame todo, hasta el detalle más pequeño. Quiero ser esa persona con la que celebres las cosas buenas, grandes y chiquitas.\n\nTu alegría es contagiosa, y verte feliz es una de mis cosas favoritas del mundo."
+        },
+        {
+          title: "Ábrelo cuando necesites motivación",
+          letter:
+            "No sé qué estás por empezar, pero sí sé que eres capaz de más de lo que crees.\n\nNo tienes que hacerlo perfecto, solo tienes que empezar. Y si te equivocas, no pasa nada: yo voy a estar aquí para recordarte lo fuerte que eres.\n\nConfío en ti, incluso cuando tú no. Ahora ve y hazlo."
+        },
+        {
+          title: "Ábrelo cuando quieras recordar por qué te amo",
+          letter:
+            "Te amo por cómo ríes, por cómo cuidas, por cómo te emocionas con las cosas que te importan.\n\nTe amo en los días bonitos y en los días raros, en las conversaciones largas y en los silencios. Te amo porque contigo la vida se siente más simple y al mismo tiempo más grande.\n\nNo es una sola razón: son todas, y varias más que aún estoy descubriendo."
+        }
+      ],
+
+      // Cupones canjeables
+      coupons: [
+        { title: "Vale por una cena elegida 100% por ti", desc: "Tú eliges el lugar, yo invito." },
+        { title: "Vale por noche de películas sin quejas", desc: "Tú eliges la peli, yo pongo los snacks." },
+        { title: "Vale por un postre o antojo a domicilio", desc: "Dime qué se te antoja y llega." },
+        { title: "Vale por un masaje relajante", desc: "Sin prisa y sin fecha límite." },
+        { title: "Vale por una salida sorpresa", desc: "Solo dime el día y déjame el resto a mí." },
+        { title: "Comodín: tú decides el plan de hoy", desc: "Cualquier plan, cualquier día." }
+      ]
+    };
+
+    /* ============================================================
+       LÓGICA (no necesitas cambiar nada de aquí en adelante)
+       ============================================================ */
+    const STORAGE_KEY = "cuponesCanjeados";
+
+    document.title = CONFIG.title;
+    document.getElementById("mainTitle").textContent = CONFIG.title;
+    document.getElementById("subtitle").textContent = CONFIG.subtitle;
+
+    // --- Contador ---
+    const startTime = new Date(CONFIG.startDate + "T00:00:00").getTime();
+    const pad = (n) => String(n).padStart(2, "0");
+
+    function tick() {
+      const diff = Math.max(0, Date.now() - startTime);
+      const s = Math.floor(diff / 1000);
+      document.getElementById("days").textContent = Math.floor(s / 86400);
+      document.getElementById("hours").textContent = pad(Math.floor((s % 86400) / 3600));
+      document.getElementById("minutes").textContent = pad(Math.floor((s % 3600) / 60));
+      document.getElementById("seconds").textContent = pad(s % 60);
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    // --- Botón de razones ---
+    const reasonBox = document.getElementById("reasonBox");
+    let lastPhrase = -1;
+
+    document.getElementById("reasonBtn").addEventListener("click", () => {
+      let i = Math.floor(Math.random() * CONFIG.phrases.length);
+      if (CONFIG.phrases.length > 1 && i === lastPhrase) {
+        i = (i + 1) % CONFIG.phrases.length;
+      }
+      lastPhrase = i;
+
+      reasonBox.style.opacity = "0";
+      setTimeout(() => {
+        reasonBox.textContent = CONFIG.phrases[i];
+        reasonBox.style.opacity = "1";
+      }, 200);
+    });
+
+    // --- Sobres y modal ---
+    const modal = document.getElementById("letterModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalBody = document.getElementById("modalBody");
+
+    const envelopesGrid = document.getElementById("envelopesGrid");
+    CONFIG.envelopes.forEach((env) => {
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className =
+        "envelope group relative h-40 overflow-hidden rounded-2xl border border-white/60 bg-gradient-to-br from-rose/80 to-blush p-3 shadow-md transition hover:-translate-y-1 hover:shadow-xl active:scale-95 sm:h-48";
+      card.innerHTML = `
+        <span class="envelope-flap absolute inset-x-0 top-0 h-3/5 bg-white/35"></span>
+        <span class="absolute left-1/2 top-[38%] z-10 grid h-9 w-9 -translate-x-1/2 place-items-center rounded-full bg-terracotta text-sm text-white shadow">♥</span>
+        <span class="relative z-10 flex h-full items-end justify-center pb-1">
+          <span class="rounded-lg bg-white/70 px-2 py-1 text-center text-[11px] font-medium leading-snug text-ink/80 backdrop-blur-sm sm:text-xs">${env.title}</span>
+        </span>
+      `;
+      card.addEventListener("click", () => {
+        modalTitle.textContent = env.title;
+        modalBody.textContent = "Luana,\n\n" + env.letter;
+        modal.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+        document.getElementById("modalCloseBtn").focus();
+      });
+      envelopesGrid.appendChild(card);
+    });
+
+    function closeModal() {
+      modal.classList.add("hidden");
+      document.body.style.overflow = "";
+    }
+    document.getElementById("modalClose").addEventListener("click", closeModal);
+    document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
+    document.getElementById("modalBackdrop").addEventListener("click", closeModal);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+    });
+
+    // --- Cupones + localStorage ---
+    function loadRedeemed() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      } catch {
+        return {};
+      }
+    }
+    function saveRedeemed(data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function formatDate(iso) {
+      return new Date(iso).toLocaleString("es-ES", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+    }
+
+    const couponsGrid = document.getElementById("couponsGrid");
+
+    function renderCoupons() {
+      const redeemed = loadRedeemed();
+      couponsGrid.innerHTML = "";
+
+      CONFIG.coupons.forEach((coupon, i) => {
+        const id = "coupon-" + i;
+        const usedAt = redeemed[id];
+        const card = document.createElement("div");
+        card.className =
+          "relative overflow-hidden rounded-2xl border border-blush bg-white p-5 shadow-sm transition";
+        card.innerHTML = `
+          <span class="absolute -left-2.5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-cream"></span>
+          <span class="absolute -right-2.5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-cream"></span>
+          <div class="flex h-full flex-col gap-4 pr-2">
+            <div>
+              <p class="text-[10px] uppercase tracking-[0.25em] text-terracotta/80">Cupón</p>
+              <h3 class="mt-1 font-serif text-lg leading-snug ${usedAt ? "text-ink/40 line-through" : ""}">${coupon.title}</h3>
+              <p class="mt-1 text-xs text-ink/50">${coupon.desc}</p>
+            </div>
+            <div class="mt-auto">
+              ${
+                usedAt
+                  ? `<div class="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-blush/40 px-3 py-2">
+                       <span class="text-xs font-semibold uppercase tracking-wider text-terracotta">Canjeado</span>
+                       <span class="text-[11px] text-ink/50">${formatDate(usedAt)}</span>
+                     </div>`
+                  : `<button data-id="${id}" class="redeem-btn w-full rounded-full bg-terracotta/10 py-2.5 text-sm font-medium text-terracotta transition hover:bg-terracotta hover:text-white active:scale-95">
+                       Canjear ahora
+                     </button>`
+              }
+            </div>
+          </div>
+        `;
+        couponsGrid.appendChild(card);
+      });
+
+      couponsGrid.querySelectorAll(".redeem-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const id = btn.dataset.id;
+          const index = Number(id.split("-")[1]);
+          const title = CONFIG.coupons[index].title;
+          if (!confirm(`¿Canjear este cupón?\n\n"${title}"`)) return;
+
+          const redeemed = loadRedeemed();
+          redeemed[id] = new Date().toISOString();
+          saveRedeemed(redeemed);
+          renderCoupons();
+          launchHearts();
+        });
+      });
+    }
+
+    // --- Confeti de corazones ---
+    function launchHearts(count = 40, scatter = false) {
+      const hearts = ["❤️", "💕", "💗", "💖", "🩷"];
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement("span");
+        heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+        heart.style.position = "fixed";
+        heart.style.top = scatter ? Math.random() * 100 - 5 + "vh" : "-6vh";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = 16 + Math.random() * 18 + "px";
+        heart.style.pointerEvents = "none";
+        heart.style.zIndex = "60";
+        heart.style.animation = `fall ${2.5 + Math.random() * 2}s linear ${scatter ? 0 : Math.random() * 0.4}s forwards`;
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5200);
+      }
+    }
+
+    // --- Reiniciar cupones ---
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      if (Object.keys(loadRedeemed()).length === 0) return;
+      if (!confirm("¿Seguro que quieres reiniciar todos los cupones?")) return;
+      localStorage.removeItem(STORAGE_KEY);
+      renderCoupons();
+    });
+
+    // --- Botón "¿Me extrañas?" ---
+    document.getElementById("missBtn").addEventListener("click", () => {
+      launchHearts(90, true);
+      document.getElementById("missMsg").style.opacity = "1";
+    });
+
+    // --- Música de fondo ---
+    const bgMusic = document.getElementById("bgMusic");
+    bgMusic.src = CONFIG.music.src;
+    const musicBtn = document.getElementById("musicBtn");
+
+    musicBtn.addEventListener("click", async () => {
+      if (bgMusic.paused) {
+        try {
+          await bgMusic.play();
+          musicBtn.textContent = "❚❚";
+          musicBtn.setAttribute("aria-pressed", "true");
+          musicBtn.setAttribute("aria-label", "Pausar música");
+        } catch {
+          alert(
+            "No encontré el archivo de música.\n\nColoca \"" +
+              CONFIG.music.src +
+              "\" en la misma carpeta que index.html."
+          );
+        }
+      } else {
+        bgMusic.pause();
+        musicBtn.textContent = "♫";
+        musicBtn.setAttribute("aria-pressed", "false");
+        musicBtn.setAttribute("aria-label", "Reproducir música");
+      }
+    });
+
+    renderCoupons();
+  </script>
+</body>
+</html>
