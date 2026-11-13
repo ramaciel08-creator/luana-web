@@ -52,33 +52,109 @@
     .fade-phrase {
       transition: opacity 0.25s ease;
     }
+
+    /* Fondo ambiental suave */
+    body {
+      background-image:
+        radial-gradient(48rem 48rem at 6% -10%, rgba(232, 180, 176, 0.42), transparent 62%),
+        radial-gradient(40rem 40rem at 108% 8%, rgba(246, 217, 213, 0.7), transparent 60%),
+        radial-gradient(52rem 42rem at 50% 118%, rgba(201, 123, 99, 0.16), transparent 65%);
+      background-attachment: fixed;
+    }
+
+    .count-num {
+      background-image: linear-gradient(160deg, #c97b63, #e8b4b0 60%, #c97b63);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .ornament {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      color: rgba(201, 123, 99, 0.65);
+    }
+    .ornament::before,
+    .ornament::after {
+      content: "";
+      height: 1px;
+      width: 2.5rem;
+      background: linear-gradient(to right, transparent, rgba(201, 123, 99, 0.55));
+    }
+    .ornament::after {
+      background: linear-gradient(to left, transparent, rgba(201, 123, 99, 0.55));
+    }
+
+    .envelope-flap {
+      transition: transform 0.45s ease;
+    }
+    .envelope:hover .envelope-flap {
+      transform: translateY(-4%) scale(1.04);
+    }
+    .envelope:hover .seal {
+      animation: beat 1.2s ease-in-out infinite;
+    }
+    @keyframes beat {
+      0%,
+      100% {
+        transform: translateX(-50%) scale(1);
+      }
+      50% {
+        transform: translateX(-50%) scale(1.15);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+    .reveal.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+      .envelope:hover .seal {
+        animation: none;
+      }
+    }
   </style>
 </head>
 <body class="bg-cream text-ink font-sans antialiased">
   <main class="mx-auto max-w-5xl px-5 py-12 sm:py-20 space-y-20 sm:space-y-28">
 
     <!-- 1. Encabezado + contador -->
-    <section class="text-center">
-      <p class="text-xs uppercase tracking-[0.3em] text-terracotta">Nuestra historia</p>
-      <h1 id="mainTitle" class="mt-3 font-serif text-4xl leading-tight sm:text-6xl"></h1>
-      <p id="subtitle" class="mx-auto mt-4 max-w-xl text-sm text-ink/70 sm:text-base"></p>
+    <section class="reveal text-center">
+      <p class="text-xs uppercase tracking-[0.3em] text-terracotta" data-i18n="kicker">Nuestra historia</p>
+      <h1 id="mainTitle" data-i18n="title" class="mt-3 font-serif text-4xl leading-tight sm:text-6xl"></h1>
+      <div class="ornament mt-5 text-sm"><span>♥</span></div>
+      <p id="subtitle" data-i18n="subtitle" class="mx-auto mt-5 max-w-xl text-sm text-ink/70 sm:text-base"></p>
+      <p id="since" class="mt-3 text-[11px] uppercase tracking-[0.2em] text-ink/45"></p>
 
       <div class="mx-auto mt-10 grid max-w-lg grid-cols-4 gap-2 sm:gap-4">
-        <div class="rounded-2xl border border-blush bg-white/70 py-4 text-center shadow-sm">
-          <span id="days" class="block font-serif text-3xl sm:text-4xl">0</span>
-          <span class="text-[10px] uppercase tracking-widest text-ink/50 sm:text-xs">días</span>
+        <div class="rounded-2xl border border-blush bg-white/60 py-4 text-center shadow-sm backdrop-blur-sm">
+          <span id="days" class="count-num block font-serif text-3xl sm:text-4xl">0</span>
+          <span data-i18n="unitDays" class="text-[10px] uppercase tracking-widest text-ink/50 sm:text-xs">días</span>
         </div>
-        <div class="rounded-2xl border border-blush bg-white/70 py-4 text-center shadow-sm">
-          <span id="hours" class="block font-serif text-3xl sm:text-4xl">0</span>
-          <span class="text-[10px] uppercase tracking-widest text-ink/50 sm:text-xs">horas</span>
+        <div class="rounded-2xl border border-blush bg-white/60 py-4 text-center shadow-sm backdrop-blur-sm">
+          <span id="hours" class="count-num block font-serif text-3xl sm:text-4xl">0</span>
+          <span data-i18n="unitHours" class="text-[10px] uppercase tracking-widest text-ink/50 sm:text-xs">horas</span>
         </div>
-        <div class="rounded-2xl border border-blush bg-white/70 py-4 text-center shadow-sm">
-          <span id="minutes" class="block font-serif text-3xl sm:text-4xl">0</span>
-          <span class="text-[10px] uppercase tracking-widest text-ink/50 sm:text-xs">min</span>
+        <div class="rounded-2xl border border-blush bg-white/60 py-4 text-center shadow-sm backdrop-blur-sm">
+          <span id="minutes" class="count-num block font-serif text-3xl sm:text-4xl">0</span>
+          <span data-i18n="unitMinutes" class="text-[10px] uppercase tracking-widest text-ink/50 sm:text-xs">min</span>
         </div>
-        <div class="rounded-2xl border border-blush bg-white/70 py-4 text-center shadow-sm">
-          <span id="seconds" class="block font-serif text-3xl sm:text-4xl">0</span>
-          <span class="text-[10px] uppercase tracking-widest text-ink/50 sm:text-xs">seg</span>
+        <div class="rounded-2xl border border-blush bg-white/60 py-4 text-center shadow-sm backdrop-blur-sm">
+          <span id="seconds" class="count-num block font-serif text-3xl sm:text-4xl">0</span>
+          <span data-i18n="unitSeconds" class="text-[10px] uppercase tracking-widest text-ink/50 sm:text-xs">seg</span>
         </div>
       </div>
 
@@ -86,6 +162,7 @@
         <button
           id="reasonBtn"
           type="button"
+          data-i18n="reasonBtn"
           class="rounded-full bg-gradient-to-r from-terracotta to-rose px-8 py-3 text-sm font-medium text-white shadow-lg shadow-rose/30 transition hover:-translate-y-0.5 hover:shadow-xl active:scale-95 sm:text-base"
         >
           Dime una razón por la que me gustas, Luana
@@ -96,11 +173,12 @@
           <button
             id="missBtn"
             type="button"
+            data-i18n="missBtn"
             class="rounded-full border border-terracotta/50 px-8 py-3 text-sm font-medium text-terracotta transition hover:bg-terracotta hover:text-white active:scale-95 sm:text-base"
           >
             ¿Me extrañas?
           </button>
-          <p id="missMsg" class="pointer-events-none mt-4 font-serif text-lg text-terracotta opacity-0 transition-opacity duration-700">
+          <p id="missMsg" data-i18n="missMsg" class="pointer-events-none mt-4 font-serif text-lg text-terracotta opacity-0 transition-opacity duration-700">
             Yo también te extraño, Luana ❤️
           </p>
         </div>
@@ -108,30 +186,42 @@
     </section>
 
     <!-- 2. Ábrelo cuando... -->
-    <section>
-      <h2 class="text-center font-serif text-3xl sm:text-4xl">Ábrelo cuando...</h2>
-      <p class="mx-auto mt-3 max-w-md text-center text-sm text-ink/60">
+    <section class="reveal">
+      <h2 data-i18n="envelopesTitle" class="text-center font-serif text-3xl sm:text-4xl">Ábrelo cuando...</h2>
+      <div class="ornament mt-4 text-xs"><span>♥</span></div>
+      <p data-i18n="envelopesIntro" class="mx-auto mt-4 max-w-md text-center text-sm text-ink/60">
         Seis cartas guardadas para los momentos en los que necesites sentirme cerca, Luana.
       </p>
       <div id="envelopesGrid" class="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6"></div>
     </section>
 
     <!-- 3. Cupones -->
-    <section>
-      <h2 class="text-center font-serif text-3xl sm:text-4xl">Cupones canjeables</h2>
-      <p class="mx-auto mt-3 max-w-md text-center text-sm text-ink/60">
+    <section class="reveal">
+      <h2 data-i18n="couponsTitle" class="text-center font-serif text-3xl sm:text-4xl">Cupones canjeables</h2>
+      <div class="ornament mt-4 text-xs"><span>♥</span></div>
+      <p data-i18n="couponsIntro" class="mx-auto mt-4 max-w-md text-center text-sm text-ink/60">
         Válidos para siempre y canjeables cuando quieras, Luana. Sin letra pequeña.
       </p>
       <div id="couponsGrid" class="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2"></div>
     </section>
 
-    <footer class="pb-6 text-center text-xs text-ink/50">
-      <p>Hecho con <span class="text-terracotta">♥</span> para Luana.</p>
-      <button id="resetBtn" type="button" class="mt-3 underline decoration-dotted underline-offset-4 transition hover:text-terracotta">
+    <footer class="reveal pb-6 text-center text-xs text-ink/50">
+      <p data-i18n-html="footerMade">Hecho con <span class="text-terracotta">♥</span> para Luana.</p>
+      <button id="resetBtn" type="button" data-i18n="resetBtn" class="mt-3 underline decoration-dotted underline-offset-4 transition hover:text-terracotta">
         Reiniciar cupones
       </button>
     </footer>
   </main>
+
+  <!-- Selector de idioma -->
+  <div
+    role="group"
+    aria-label="Idioma / Sprache"
+    class="fixed left-4 top-4 z-40 flex items-center gap-1 rounded-full border border-blush bg-white/70 p-1 text-xs font-semibold shadow-sm backdrop-blur"
+  >
+    <button id="langEs" type="button" data-lang="es" class="rounded-full px-3 py-1 text-ink/60 transition hover:text-terracotta">ES</button>
+    <button id="langDe" type="button" data-lang="de" class="rounded-full px-3 py-1 text-ink/60 transition hover:text-terracotta">DE</button>
+  </div>
 
   <!-- Música de fondo -->
   <audio id="bgMusic" loop preload="none"></audio>
@@ -164,6 +254,7 @@
         <button
           id="modalCloseBtn"
           type="button"
+          data-i18n="closeLetter"
           class="mt-8 w-full rounded-full border border-terracotta/40 py-3 text-sm font-medium text-terracotta transition hover:bg-terracotta hover:text-white"
         >
           Cerrar carta
@@ -182,85 +273,198 @@
       // Fecha en la que empezó la historia (AAAA-MM-DD)
       startDate: "2023-05-09",
 
-      title: "Para ti, Luana",
-      subtitle: "Luana, desde el día en que te conocí, todo se volvió un poco más bonito.",
-
       // Pega aquí el nombre del archivo de música que esté junto a este index.html
       music: { src: "cancion.mp3/cancion.mp3.mp3", title: "Nuestra canción" },
+    };
 
-      // Frases del botón "Dime una razón..."
-      phrases: [
-        "Porque tu risa es mi sonido favorito.",
-        "Porque incluso los días grises se vuelven bonitos contigo.",
-        "Porque me escuchas de verdad, aunque hable de tonterías.",
-        "Porque haces que lo cotidiano se sienta especial.",
-        "Porque contigo hasta el silencio es cómodo.",
-        "Porque tu forma de cuidar a los demás me inspira.",
-        "Porque tengo mil planes y en todos estás tú.",
-        "Porque me gusta la persona que soy cuando estoy contigo.",
-        "Porque tu abrazo se siente como llegar a casa.",
-        "Porque hasta tus enojos me parecen adorables.",
-        "Porque crees en mí incluso cuando yo no.",
-        "Porque no necesito una ocasión especial para pensarte.",
-        "Porque tu manera de ver el mundo me hace querer verlo igual.",
-        "Porque contigo el tiempo pasa rápido y lento a la vez.",
-        "Porque elegiría una y otra vez esta historia contigo.",
-        "Porque tu felicidad también se volvió la mía."
-      ],
+    /* Textos en español y alemán. Añade otro idioma copiando un bloque. */
+    const I18N = {
+      es: {
+        title: "Para ti, Luana",
+        subtitle: "Luana, desde el día en que te conocí, todo se volvió un poco más bonito.",
+        kicker: "Nuestra historia",
+        sincePrefix: "Desde el",
+        unitDays: "días",
+        unitHours: "horas",
+        unitMinutes: "min",
+        unitSeconds: "seg",
+        reasonBtn: "Dime una razón por la que me gustas, Luana",
+        missBtn: "¿Me extrañas?",
+        missMsg: "Yo también te extraño, Luana ❤️",
+        envelopesTitle: "Ábrelo cuando...",
+        envelopesIntro: "Seis cartas guardadas para los momentos en los que necesites sentirme cerca, Luana.",
+        couponsTitle: "Cupones canjeables",
+        couponsIntro: "Válidos para siempre y canjeables cuando quieras, Luana. Sin letra pequeña.",
+        footerMade: 'Hecho con <span class="text-terracotta">♥</span> para Luana.',
+        resetBtn: "Reiniciar cupones",
+        couponLabel: "Cupón",
+        redeemBtn: "Canjear ahora",
+        usedLabel: "Canjeado",
+        closeLetter: "Cerrar carta",
+        closeLetterAria: "Cerrar carta",
+        musicPlayAria: "Reproducir música",
+        musicPauseAria: "Pausar música",
+        musicError: "No encontré el archivo de música. Debe estar junto a index.html:",
+        redeemConfirm: "¿Canjear este cupón?",
+        resetConfirm: "¿Seguro que quieres reiniciar todos los cupones?",
+        locale: "es-ES",
+        phrases: [
+          "Porque tu risa es mi sonido favorito.",
+          "Porque incluso los días grises se vuelven bonitos contigo.",
+          "Porque me escuchas de verdad, aunque hable de tonterías.",
+          "Porque haces que lo cotidiano se sienta especial.",
+          "Porque contigo hasta el silencio es cómodo.",
+          "Porque tu forma de cuidar a los demás me inspira.",
+          "Porque tengo mil planes y en todos estás tú.",
+          "Porque me gusta la persona que soy cuando estoy contigo.",
+          "Porque tu abrazo se siente como llegar a casa.",
+          "Porque hasta tus enojos me parecen adorables.",
+          "Porque crees en mí incluso cuando yo no.",
+          "Porque no necesito una ocasión especial para pensarte.",
+          "Porque tu manera de ver el mundo me hace querer verlo igual.",
+          "Porque contigo el tiempo pasa rápido y lento a la vez.",
+          "Porque elegiría una y otra vez esta historia contigo.",
+          "Porque tu felicidad también se volvió la mía."
+        ],
+        envelopes: [
+          {
+            title: "Ábrelo cuando me extrañes",
+            letter:
+              "Si estás leyendo esto, es porque me extrañas, y quiero que sepas que yo también te extraño a ti.\n\nPiensa que cada minuto que no estamos juntos también es un minuto más cerca de volver a verte. Mientras tanto, guarda un abrazo imaginario mío y no lo sueltes hasta que pueda dártelo de verdad.\n\nEstás en mis pensamientos más de lo que imaginas."
+          },
+          {
+            title: "Ábrelo cuando tengas un mal día",
+            letter:
+              "Respira. Lo que sea que te esté pesando hoy no define ni tu día ni tu semana.\n\nNo tienes que poder con todo siempre, y no tienes que fingir que estás bien delante de mí. Si hoy solo puedes sentarte y descansar, eso ya es suficiente.\n\nEstoy orgulloso de ti incluso en los días difíciles, y cuando quieras, aquí estoy para escucharte."
+          },
+          {
+            title: "Ábrelo cuando no puedas dormir",
+            letter:
+              "Cierra los ojos un momento e imagina que estamos en el sofá, con una manta y esa serie que nunca terminamos.\n\nNo tienes que resolver la vida a las 3 de la mañana. Suelta lo que no puedas controlar y quédate solo con lo que te haga sentir tranquilo.\n\nLeer esto cuenta como un beso de buenas noches. Duerme, que mañana te espero."
+          },
+          {
+            title: "Ábrelo cuando estés feliz",
+            letter:
+              "¡Me encanta que estés feliz! Y me encanta todavía más que quieras compartirlo conmigo.\n\nCuéntame todo, hasta el detalle más pequeño. Quiero ser esa persona con la que celebres las cosas buenas, grandes y chiquitas.\n\nTu alegría es contagiosa, y verte feliz es una de mis cosas favoritas del mundo."
+          },
+          {
+            title: "Ábrelo cuando necesites motivación",
+            letter:
+              "No sé qué estás por empezar, pero sí sé que eres capaz de más de lo que crees.\n\nNo tienes que hacerlo perfecto, solo tienes que empezar. Y si te equivocas, no pasa nada: yo voy a estar aquí para recordarte lo fuerte que eres.\n\nConfío en ti, incluso cuando tú no. Ahora ve y hazlo."
+          },
+          {
+            title: "Ábrelo cuando quieras recordar por qué te amo",
+            letter:
+              "Te amo por cómo ríes, por cómo cuidas, por cómo te emocionas con las cosas que te importan.\n\nTe amo en los días bonitos y en los días raros, en las conversaciones largas y en los silencios. Te amo porque contigo la vida se siente más simple y al mismo tiempo más grande.\n\nNo es una sola razón: son todas, y varias más que aún estoy descubriendo."
+          }
+        ],
+        coupons: [
+          { title: "Vale por una cena elegida 100% por ti", desc: "Tú eliges el lugar, yo invito." },
+          { title: "Vale por noche de películas sin quejas", desc: "Tú eliges la peli, yo pongo los snacks." },
+          { title: "Vale por un postre o antojo a domicilio", desc: "Dime qué se te antoja y llega." },
+          { title: "Vale por un masaje relajante", desc: "Sin prisa y sin fecha límite." },
+          { title: "Vale por una salida sorpresa", desc: "Solo dime el día y déjame el resto a mí." },
+          { title: "Comodín: tú decides el plan de hoy", desc: "Cualquier plan, cualquier día." }
+        ]
+      },
 
-      // Sobres de "Ábrelo cuando..."
-      envelopes: [
-        {
-          title: "Ábrelo cuando me extrañes",
-          letter:
-            "Si estás leyendo esto, es porque me extrañas, y quiero que sepas que yo también te extraño a ti.\n\nPiensa que cada minuto que no estamos juntos también es un minuto más cerca de volver a verte. Mientras tanto, guarda un abrazo imaginario mío y no lo sueltes hasta que pueda dártelo de verdad.\n\nEstás en mis pensamientos más de lo que imaginas."
-        },
-        {
-          title: "Ábrelo cuando tengas un mal día",
-          letter:
-            "Respira. Lo que sea que te esté pesando hoy no define ni tu día ni tu semana.\n\nNo tienes que poder con todo siempre, y no tienes que fingir que estás bien delante de mí. Si hoy solo puedes sentarte y descansar, eso ya es suficiente.\n\nEstoy orgulloso de ti incluso en los días difíciles, y cuando quieras, aquí estoy para escucharte."
-        },
-        {
-          title: "Ábrelo cuando no puedas dormir",
-          letter:
-            "Cierra los ojos un momento e imagina que estamos en el sofá, con una manta y esa serie que nunca terminamos.\n\nNo tienes que resolver la vida a las 3 de la mañana. Suelta lo que no puedas controlar y quédate solo con lo que te haga sentir tranquilo.\n\nLeer esto cuenta como un beso de buenas noches. Duerme, que mañana te espero."
-        },
-        {
-          title: "Ábrelo cuando estés feliz",
-          letter:
-            "¡Me encanta que estés feliz! Y me encanta todavía más que quieras compartirlo conmigo.\n\nCuéntame todo, hasta el detalle más pequeño. Quiero ser esa persona con la que celebres las cosas buenas, grandes y chiquitas.\n\nTu alegría es contagiosa, y verte feliz es una de mis cosas favoritas del mundo."
-        },
-        {
-          title: "Ábrelo cuando necesites motivación",
-          letter:
-            "No sé qué estás por empezar, pero sí sé que eres capaz de más de lo que crees.\n\nNo tienes que hacerlo perfecto, solo tienes que empezar. Y si te equivocas, no pasa nada: yo voy a estar aquí para recordarte lo fuerte que eres.\n\nConfío en ti, incluso cuando tú no. Ahora ve y hazlo."
-        },
-        {
-          title: "Ábrelo cuando quieras recordar por qué te amo",
-          letter:
-            "Te amo por cómo ríes, por cómo cuidas, por cómo te emocionas con las cosas que te importan.\n\nTe amo en los días bonitos y en los días raros, en las conversaciones largas y en los silencios. Te amo porque contigo la vida se siente más simple y al mismo tiempo más grande.\n\nNo es una sola razón: son todas, y varias más que aún estoy descubriendo."
-        }
-      ],
-
-      // Cupones canjeables
-      coupons: [
-        { title: "Vale por una cena elegida 100% por ti", desc: "Tú eliges el lugar, yo invito." },
-        { title: "Vale por noche de películas sin quejas", desc: "Tú eliges la peli, yo pongo los snacks." },
-        { title: "Vale por un postre o antojo a domicilio", desc: "Dime qué se te antoja y llega." },
-        { title: "Vale por un masaje relajante", desc: "Sin prisa y sin fecha límite." },
-        { title: "Vale por una salida sorpresa", desc: "Solo dime el día y déjame el resto a mí." },
-        { title: "Comodín: tú decides el plan de hoy", desc: "Cualquier plan, cualquier día." }
-      ]
+      de: {
+        title: "Für dich, Luana",
+        subtitle: "Luana, seit dem Tag, an dem ich dich kennengelernt habe, ist alles ein bisschen schöner geworden.",
+        kicker: "Unsere Geschichte",
+        sincePrefix: "Seit dem",
+        unitDays: "Tage",
+        unitHours: "Std.",
+        unitMinutes: "Min.",
+        unitSeconds: "Sek.",
+        reasonBtn: "Nenn mir einen Grund, warum ich dich mag, Luana",
+        missBtn: "Vermisst du mich?",
+        missMsg: "Ich vermisse dich auch, Luana ❤️",
+        envelopesTitle: "Öffne es, wenn...",
+        envelopesIntro: "Sechs Briefe für die Momente, in denen du mich nah bei dir spüren möchtest, Luana.",
+        couponsTitle: "Einlösbare Gutscheine",
+        couponsIntro: "Für immer gültig und jederzeit einlösbar, Luana. Ohne Kleingedrucktes.",
+        footerMade: 'Gemacht mit <span class="text-terracotta">♥</span> für Luana.',
+        resetBtn: "Gutscheine zurücksetzen",
+        couponLabel: "Gutschein",
+        redeemBtn: "Jetzt einlösen",
+        usedLabel: "Eingelöst",
+        closeLetter: "Brief schließen",
+        closeLetterAria: "Brief schließen",
+        musicPlayAria: "Musik abspielen",
+        musicPauseAria: "Musik pausieren",
+        musicError: "Ich konnte die Musikdatei nicht finden. Sie muss neben index.html liegen:",
+        redeemConfirm: "Diesen Gutschein einlösen?",
+        resetConfirm: "Möchtest du wirklich alle Gutscheine zurücksetzen?",
+        locale: "de-DE",
+        phrases: [
+          "Weil dein Lachen mein Lieblingsgeräusch ist.",
+          "Weil selbst graue Tage mit dir schön werden.",
+          "Weil du mir wirklich zuhörst, auch wenn ich Unsinn rede.",
+          "Weil du das Alltägliche besonders machst.",
+          "Weil selbst die Stille mit dir angenehm ist.",
+          "Weil deine Art, für andere zu sorgen, mich inspiriert.",
+          "Weil ich tausend Pläne habe und in allen du vorkommst.",
+          "Weil ich die Person mag, die ich bin, wenn ich bei dir bin.",
+          "Weil sich deine Umarmung wie nach Hause kommen anfühlt.",
+          "Weil sogar dein Schmollen bezaubernd ist.",
+          "Weil du an mich glaubst, auch wenn ich es gerade nicht tue.",
+          "Weil ich keinen besonderen Anlass brauche, um an dich zu denken.",
+          "Weil deine Art, die Welt zu sehen, mich sie genauso sehen lässt.",
+          "Weil die Zeit mit dir gleichzeitig schnell und langsam vergeht.",
+          "Weil ich diese Geschichte mit dir immer wieder wählen würde.",
+          "Weil dein Glück auch mein Glück geworden ist."
+        ],
+        envelopes: [
+          {
+            title: "Öffne es, wenn du mich vermisst",
+            letter:
+              "Wenn du das liest, vermisst du mich – und ich möchte, dass du weißt: Ich vermisse dich genauso.\n\nDenk daran: Jede Minute, in der wir nicht zusammen sind, bringt uns eine Minute näher daran, uns wiederzusehen. Bis dahin schenke ich dir eine imaginäre Umarmung – halt sie fest, bis ich sie dir wirklich geben kann.\n\nDu bist öfter in meinen Gedanken, als du glaubst."
+          },
+          {
+            title: "Öffne es, wenn du einen schlechten Tag hast",
+            letter:
+              "Atme durch. Was auch immer dich heute belastet, es bestimmt weder deinen Tag noch deine Woche.\n\nDu musst nicht immer alles schaffen und musst mir gegenüber nicht so tun, als wäre alles gut. Wenn du heute nur sitzen und ausruhen kannst, ist das schon genug.\n\nIch bin stolz auf dich, auch an schwierigen Tagen – und wenn du reden willst, bin ich da."
+          },
+          {
+            title: "Öffne es, wenn du nicht schlafen kannst",
+            letter:
+              "Schließ die Augen und stell dir vor, wir sitzen auf dem Sofa, mit einer Decke und dieser Serie, die wir nie zu Ende geschaut haben.\n\nDu musst um drei Uhr morgens nicht dein ganzes Leben lösen. Lass los, was du nicht kontrollieren kannst, und behalte nur, was dich ruhig macht.\n\nDas hier zu lesen zählt als Gute-Nacht-Kuss. Schlaf gut, morgen warte ich auf dich."
+          },
+          {
+            title: "Öffne es, wenn du glücklich bist",
+            letter:
+              "Es freut mich so, dass du glücklich bist! Und noch mehr freut es mich, dass du es mit mir teilen willst.\n\nErzähl mir alles, bis ins kleinste Detail. Ich will der Mensch sein, mit dem du das Gute feierst – ob groß oder klein.\n\nDeine Freude steckt an, und dich glücklich zu sehen ist eines meiner liebsten Dinge auf der Welt."
+          },
+          {
+            title: "Öffne es, wenn du Motivation brauchst",
+            letter:
+              "Ich weiß nicht, was du gerade anfängst, aber ich weiß, dass du mehr schaffst, als du glaubst.\n\nEs muss nicht perfekt sein, du musst nur anfangen. Und wenn etwas schiefgeht, ist das okay: Ich bin da, um dich daran zu erinnern, wie stark du bist.\n\nIch glaube an dich, auch wenn du es gerade nicht tust. Jetzt geh und mach es."
+          },
+          {
+            title: "Öffne es, wenn du dich erinnern willst, warum ich dich liebe",
+            letter:
+              "Ich liebe dich für dein Lachen, für deine Fürsorge, für die Art, wie du dich für Dinge begeisterst, die dir wichtig sind.\n\nIch liebe dich an schönen und an seltsamen Tagen, in langen Gesprächen und im Schweigen. Ich liebe dich, weil das Leben mit dir einfacher und gleichzeitig größer wird.\n\nEs ist nicht ein Grund: Es sind alle – und einige mehr, die ich noch entdecke."
+          }
+        ],
+        coupons: [
+          { title: "Gutschein für ein Essen, das du zu 100 % aussuchst", desc: "Du wählst den Ort, ich lade ein." },
+          { title: "Gutschein für einen Filmabend ohne Beschwerden", desc: "Du wählst den Film, ich besorge die Snacks." },
+          { title: "Gutschein für einen Nachtisch oder Snack nach Hause", desc: "Sag mir, worauf du Lust hast, und es kommt." },
+          { title: "Gutschein für eine entspannende Massage", desc: "Ohne Eile und ohne Ablaufdatum." },
+          { title: "Gutschein für einen Überraschungsausflug", desc: "Sag mir nur den Tag, den Rest überlasse ich dir." },
+          { title: "Joker: Du entscheidest den Plan für heute", desc: "Jeder Plan, jeder Tag." }
+        ]
+      }
     };
 
     /* ============================================================
        LÓGICA (no necesitas cambiar nada de aquí en adelante)
        ============================================================ */
     const STORAGE_KEY = "cuponesCanjeados";
-
-    document.title = CONFIG.title;
-    document.getElementById("mainTitle").textContent = CONFIG.title;
-    document.getElementById("subtitle").textContent = CONFIG.subtitle;
+    const LANG_KEY = "luanaLang";
+    let lang = "es";
+    const t = () => I18N[lang];
 
     // --- Contador ---
     const startTime = new Date(CONFIG.startDate + "T00:00:00").getTime();
@@ -282,15 +486,16 @@
     let lastPhrase = -1;
 
     document.getElementById("reasonBtn").addEventListener("click", () => {
-      let i = Math.floor(Math.random() * CONFIG.phrases.length);
-      if (CONFIG.phrases.length > 1 && i === lastPhrase) {
-        i = (i + 1) % CONFIG.phrases.length;
+      const phrases = t().phrases;
+      let i = Math.floor(Math.random() * phrases.length);
+      if (phrases.length > 1 && i === lastPhrase) {
+        i = (i + 1) % phrases.length;
       }
       lastPhrase = i;
 
       reasonBox.style.opacity = "0";
       setTimeout(() => {
-        reasonBox.textContent = CONFIG.phrases[i];
+        reasonBox.textContent = phrases[i];
         reasonBox.style.opacity = "1";
       }, 200);
     });
@@ -301,27 +506,30 @@
     const modalBody = document.getElementById("modalBody");
 
     const envelopesGrid = document.getElementById("envelopesGrid");
-    CONFIG.envelopes.forEach((env) => {
-      const card = document.createElement("button");
-      card.type = "button";
-      card.className =
-        "envelope group relative h-40 overflow-hidden rounded-2xl border border-white/60 bg-gradient-to-br from-rose/80 to-blush p-3 shadow-md transition hover:-translate-y-1 hover:shadow-xl active:scale-95 sm:h-48";
-      card.innerHTML = `
+    function renderEnvelopes() {
+      envelopesGrid.innerHTML = "";
+      t().envelopes.forEach((env) => {
+        const card = document.createElement("button");
+        card.type = "button";
+        card.className =
+          "envelope group relative h-40 overflow-hidden rounded-2xl border border-white/60 bg-gradient-to-br from-rose/80 to-blush p-3 shadow-md transition hover:-translate-y-1 hover:shadow-xl active:scale-95 sm:h-48";
+        card.innerHTML = `
         <span class="envelope-flap absolute inset-x-0 top-0 h-3/5 bg-white/35"></span>
-        <span class="absolute left-1/2 top-[38%] z-10 grid h-9 w-9 -translate-x-1/2 place-items-center rounded-full bg-terracotta text-sm text-white shadow">♥</span>
+        <span class="seal absolute left-1/2 top-[38%] z-10 grid h-9 w-9 -translate-x-1/2 place-items-center rounded-full bg-terracotta text-sm text-white shadow">♥</span>
         <span class="relative z-10 flex h-full items-end justify-center pb-1">
           <span class="rounded-lg bg-white/70 px-2 py-1 text-center text-[11px] font-medium leading-snug text-ink/80 backdrop-blur-sm sm:text-xs">${env.title}</span>
         </span>
       `;
-      card.addEventListener("click", () => {
-        modalTitle.textContent = env.title;
-        modalBody.textContent = "Luana,\n\n" + env.letter;
-        modal.classList.remove("hidden");
-        document.body.style.overflow = "hidden";
-        document.getElementById("modalCloseBtn").focus();
+        card.addEventListener("click", () => {
+          modalTitle.textContent = env.title;
+          modalBody.textContent = "Luana,\n\n" + env.letter;
+          modal.classList.remove("hidden");
+          document.body.style.overflow = "hidden";
+          document.getElementById("modalCloseBtn").focus();
+        });
+        envelopesGrid.appendChild(card);
       });
-      envelopesGrid.appendChild(card);
-    });
+    }
 
     function closeModal() {
       modal.classList.add("hidden");
@@ -347,7 +555,7 @@
     }
 
     function formatDate(iso) {
-      return new Date(iso).toLocaleString("es-ES", {
+      return new Date(iso).toLocaleString(t().locale, {
         day: "2-digit",
         month: "short",
         year: "numeric",
@@ -362,7 +570,7 @@
       const redeemed = loadRedeemed();
       couponsGrid.innerHTML = "";
 
-      CONFIG.coupons.forEach((coupon, i) => {
+      t().coupons.forEach((coupon, i) => {
         const id = "coupon-" + i;
         const usedAt = redeemed[id];
         const card = document.createElement("div");
@@ -373,7 +581,7 @@
           <span class="absolute -right-2.5 top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-cream"></span>
           <div class="flex h-full flex-col gap-4 pr-2">
             <div>
-              <p class="text-[10px] uppercase tracking-[0.25em] text-terracotta/80">Cupón</p>
+              <p class="text-[10px] uppercase tracking-[0.25em] text-terracotta/80">${t().couponLabel}</p>
               <h3 class="mt-1 font-serif text-lg leading-snug ${usedAt ? "text-ink/40 line-through" : ""}">${coupon.title}</h3>
               <p class="mt-1 text-xs text-ink/50">${coupon.desc}</p>
             </div>
@@ -381,11 +589,11 @@
               ${
                 usedAt
                   ? `<div class="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-blush/40 px-3 py-2">
-                       <span class="text-xs font-semibold uppercase tracking-wider text-terracotta">Canjeado</span>
+                       <span class="text-xs font-semibold uppercase tracking-wider text-terracotta">${t().usedLabel}</span>
                        <span class="text-[11px] text-ink/50">${formatDate(usedAt)}</span>
                      </div>`
                   : `<button data-id="${id}" class="redeem-btn w-full rounded-full bg-terracotta/10 py-2.5 text-sm font-medium text-terracotta transition hover:bg-terracotta hover:text-white active:scale-95">
-                       Canjear ahora
+                       ${t().redeemBtn}
                      </button>`
               }
             </div>
@@ -398,8 +606,8 @@
         btn.addEventListener("click", () => {
           const id = btn.dataset.id;
           const index = Number(id.split("-")[1]);
-          const title = CONFIG.coupons[index].title;
-          if (!confirm(`¿Canjear este cupón?\n\n"${title}"`)) return;
+          const title = t().coupons[index].title;
+          if (!confirm(t().redeemConfirm + `\n\n"${title}"`)) return;
 
           const redeemed = loadRedeemed();
           redeemed[id] = new Date().toISOString();
@@ -431,7 +639,7 @@
     // --- Reiniciar cupones ---
     document.getElementById("resetBtn").addEventListener("click", () => {
       if (Object.keys(loadRedeemed()).length === 0) return;
-      if (!confirm("¿Seguro que quieres reiniciar todos los cupones?")) return;
+      if (!confirm(t().resetConfirm)) return;
       localStorage.removeItem(STORAGE_KEY);
       renderCoupons();
     });
@@ -453,23 +661,81 @@
           await bgMusic.play();
           musicBtn.textContent = "❚❚";
           musicBtn.setAttribute("aria-pressed", "true");
-          musicBtn.setAttribute("aria-label", "Pausar música");
+          musicBtn.setAttribute("aria-label", t().musicPauseAria);
         } catch {
-          alert(
-            "No encontré el archivo de música.\n\nColoca \"" +
-              CONFIG.music.src +
-              "\" en la misma carpeta que index.html."
-          );
+          alert(t().musicError + "\n\n" + CONFIG.music.src);
         }
       } else {
         bgMusic.pause();
         musicBtn.textContent = "♫";
         musicBtn.setAttribute("aria-pressed", "false");
-        musicBtn.setAttribute("aria-label", "Reproducir música");
+        musicBtn.setAttribute("aria-label", t().musicPlayAria);
       }
     });
 
-    renderCoupons();
+    // --- Aparición suave al hacer scroll ---
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+
+    // --- Idioma ---
+    function applyLang(next) {
+      lang = I18N[next] ? next : "es";
+      localStorage.setItem(LANG_KEY, lang);
+      document.documentElement.lang = lang;
+      document.title = t().title;
+
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        el.textContent = t()[el.dataset.i18n] || "";
+      });
+      document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+        el.innerHTML = t()[el.dataset.i18nHtml] || "";
+      });
+
+      const since = new Date(CONFIG.startDate + "T00:00:00").toLocaleDateString(t().locale, {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+      document.getElementById("since").textContent = t().sincePrefix + " " + since;
+
+      document.getElementById("modalClose").setAttribute("aria-label", t().closeLetterAria);
+      musicBtn.setAttribute(
+        "aria-label",
+        bgMusic.paused ? t().musicPlayAria : t().musicPauseAria
+      );
+
+      document.querySelectorAll("[data-lang]").forEach((btn) => {
+        const active = btn.dataset.lang === lang;
+        btn.classList.toggle("bg-terracotta", active);
+        btn.classList.toggle("text-white", active);
+        btn.classList.toggle("text-ink/60", !active);
+        btn.setAttribute("aria-pressed", String(active));
+      });
+
+      lastPhrase = -1;
+      reasonBox.textContent = "";
+      closeModal();
+      renderEnvelopes();
+      renderCoupons();
+    }
+
+    document.querySelectorAll("[data-lang]").forEach((btn) => {
+      btn.addEventListener("click", () => applyLang(btn.dataset.lang));
+    });
+
+    const savedLang = localStorage.getItem(LANG_KEY);
+    const browserLang = (navigator.language || "es").toLowerCase();
+    applyLang(savedLang || (browserLang.startsWith("de") ? "de" : "es"));
   </script>
 </body>
 </html>
